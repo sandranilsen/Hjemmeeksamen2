@@ -1,6 +1,2 @@
-Dette skal gjøres i hjemmeeksamen:
-- klient: bruker sender inn input.
-- klient: input + protokoll sendes over til serveren
-- sever: utføre systemkall med den gitte kommandoen
-- server: returnere resultatet fra systemkallet med popen()
-
+Hvordan kan jeg få hele koden til å kjøre i ett og samme terminalvindu?
+hvorfor kjører hovedprogrammet mitt flere ganger?

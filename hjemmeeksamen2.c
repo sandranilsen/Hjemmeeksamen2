@@ -4,19 +4,22 @@
 
 void command_loop();
 
-main(){
+int main(){
 
 	command_loop();
+	return 0;
 
 }
 
 /*
 kommandoløkke løper helt til bruker taster 'q'.
+Kaller på createclient() fra client.c
 */
 void command_loop(){
 
 	int isRunning = 1;
-	char userInput[40];
+	char userInput[3];
+	char* command;
 
 	while(isRunning){
 
@@ -40,7 +43,23 @@ void command_loop(){
 
 			}else{
 
-				command_loop();
+				if(userInput[0] == '1'){
+					//ls
+
+				}else if(userInput[0] == '2'){
+					//pwd
+
+				}else if(userInput[0] == '3'){
+					//cd
+
+				}else if(userInput[0] == '4'){
+					//file information
+
+				}else if(userInput[0] == '5'){
+					//cat
+
+				}
+
 			}
 
 		}
