@@ -3,9 +3,11 @@
 #include <netdb.h> 
 #include <stdio.h>
 #include <string.h>
-
+/*
 main()
-{
+{*/
+
+void createclient(){
 
     //kan flytte dette inn i egen metode, for så å ha ordreløkka her.
     //kanskje litt selvmotsigende mtp filnavnet?
@@ -24,7 +26,7 @@ main()
     serveraddr.sin_family = AF_INET;
 
     /* Sett inn internettadressen til localhost */
-    serveraddr.sin_addr.s_addr = inet_addr("129.240.71.85");
+    serveraddr.sin_addr.s_addr = inet_addr("129.240.71.79");
 
     /* Sett portnummer */
     serveraddr.sin_port = htons(2009);
@@ -44,5 +46,6 @@ main()
 
     /* Steng socketen */
     close(sock);
-
 }
+
+//}
