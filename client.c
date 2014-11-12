@@ -3,14 +3,15 @@
 #include <netdb.h> 
 #include <stdio.h>
 #include <string.h>
+
 /*
-main()
-{*/
+
+oppretter klient og kobler til server. 
+
+*/
 
 void createclient(){
 
-    //kan flytte dette inn i egen metode, for så å ha ordreløkka her.
-    //kanskje litt selvmotsigende mtp filnavnet?
    /* deklarasjon av litt datastruktur */
      struct sockaddr_in serveraddr;
      int sock;
@@ -47,5 +48,3 @@ void createclient(){
     /* Steng socketen */
     close(sock);
 }
-
-//}
