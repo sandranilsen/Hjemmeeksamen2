@@ -44,7 +44,8 @@ void command_loop(){
 			}else{
 
 				if(userInput[0] == '1'){
-					//ls
+					command = "ls";
+					createclient(command);
 
 				}else if(userInput[0] == '2'){
 					//pwd

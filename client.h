@@ -1,1 +1,1 @@
-void createclient(char in);
+void createclient(char* in);
