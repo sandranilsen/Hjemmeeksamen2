@@ -39,10 +39,6 @@ void command_loop(){
 				printf("! [?] this menu \n");
 				printf("! [q] quit \n");
 
-			}else if(userInput[0] == 'q'){
-
-				isRunning = 0;
-
 			}else{
 
 				if(userInput[0] == '1'){
@@ -61,6 +57,11 @@ void command_loop(){
 
 				}else if(userInput[0] == '5'){
 					//cat
+
+				}else if(userInput[0] == 'q'){
+					command = "q";
+					createclient(command);
+					isRunning = 0;
 
 				}
 

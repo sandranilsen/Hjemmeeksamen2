@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <string.h>
-#include "client.h"
+
+#include "server.h"
 
 main()
 {
-
-    createserver();  
+    /*denne må løpe evig. Når skal den stoppe?*/
+  createserver();
 } 
    

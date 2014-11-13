@@ -21,6 +21,7 @@ void createserver(){
     char buf[1000]; 
    	//char* res;
     char res[1000];
+    int isrunning = 1;
 
     /* Opprett request-socket  */
     request_sock = socket(AF_INET, SOCK_STREAM, 
@@ -34,28 +35,41 @@ void createserver(){
     /* bind adressen til socketen */
     bind(request_sock, (struct sockaddr *)&serveraddr, sizeof serveraddr);
 
-    /* aktiver lytting på socketen */
-    listen(request_sock, SOMAXCONN);
+	while(isrunning){
 
-    /* motta en forbindelse */
-    sock = accept(request_sock,(struct sockaddr *)&clientaddr, 
-                                                    &clientaddrlen);
+    	/* aktiver lytting på socketen */
+   	 	listen(request_sock, SOMAXCONN);
 
-    /* les data fra forbindelsen, og skriv dem ut */
+    	/* motta en forbindelse */
+    	sock = accept(request_sock,(struct sockaddr *)&clientaddr, &clientaddrlen);
 
-    read(sock, buf,1000);
-    buf[11] = '\0';
+    	/* les data fra forbindelsen, og skriv dem ut */
+    	read(sock, buf,1000);
+    	buf[1000] = '\0';
 
-    /*sender med kommandoen til getcmdres*/
- 	//res = getcmdres(buf);
+    	/*sender med kommandoen til getcmdres*/
+ 		//res = getcmdres(buf);
 
-    FILE* f;
 
-	f = popen(buf, "r");
-	fgets(res, sizeof(res), f);
+		/*dersom q sendes med skal den evige løkken avsluttes og serveren lukkes sender
+		med 'q' tilbake til klienten for å bekrefte av programmet avsluttes*/
+		if(buf[0] == 'q'){
+			isrunning = 0;
+			write(sock, buf, 1000);
 
-    /* Send data tilbake over forbindelsen */
-    write(sock, res, 1000); 
+		}else{
+    		FILE* f;
+
+			f = popen(buf, "r");
+			fgets(res, sizeof(res), f);
+
+    		/* Send data tilbake over forbindelsen */
+    		write(sock, res, 1000); 
+
+    	}
+
+	}
+
 
     /* Steng socketene */
     close(sock);
