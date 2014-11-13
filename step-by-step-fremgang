@@ -1,3 +1,11 @@
 Hvordan kan jeg få hele koden til å kjøre i ett og samme terminalvindu?
-Slik som jeg sender mer en peker til createclient, er dette ok?
-Hvorfor avslutter løkka mi når createclient kalles?
+Hvordan kan jeg få klient og server kjøre så lenge jeg vil?
+popen eller system?
+burde jeg sende kommandoen fra klienten til serveren via en struct?
+hvordan skal jeg sende dataene tilbake til klienten? struct?
+
+
+
+skrive ut fra server til klient: repetere write flere ganger
+for at serveren ikke skal avslutte må den gå i en slags evig løkke
+lage en form for struktur for å sende beskjeden. feks de første plassene en id, neste lengden og deretter selve beskjeden - check!

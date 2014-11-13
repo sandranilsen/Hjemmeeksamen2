@@ -1,0 +1,1 @@
+char* getcmdres(char buf[]);

@@ -13,7 +13,6 @@ INPUT: brukerinput
 
 void createclient(char* in){
 
-    printf("INPUT: %s\n", in);
    /* deklarasjon av litt datastruktur */
      struct sockaddr_in serveraddr;
      int sock;
@@ -37,18 +36,14 @@ void createclient(char* in){
     /* Koble opp */
     connect(sock, (struct sockaddr*)&serveraddr, sizeof serveraddr); 
 
-    /* Send data */
-    //her må det sjekke på hva slags input som er sendt med og deretter sende med 
-    //rett input til systemkall
-
-  //  write(sock, "Hei verden!", 11);
+    /* Send data fra brukerinput*/
     write(sock, in, sizeof(in));
 
     /* les data fra forbindelsen */
-    read(sock, buf, 11);
+    read(sock, buf, 12);
 
     /* legg til et termineringstegn, og skriv ut til skjerm */
-    buf[11] = '\0';
+    buf[12] = '\0';
     printf("%s \n",buf);
 
     /* Steng socketen */

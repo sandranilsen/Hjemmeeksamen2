@@ -12,8 +12,10 @@ int main(){
 }
 
 /*
+
 kommandoløkke løper helt til bruker taster 'q'.
 Kaller på createclient() fra client.c
+
 */
 void command_loop(){
 
@@ -48,7 +50,8 @@ void command_loop(){
 					createclient(command);
 
 				}else if(userInput[0] == '2'){
-					//pwd
+					command = "pwd";
+					createclient(command);
 
 				}else if(userInput[0] == '3'){
 					//cd

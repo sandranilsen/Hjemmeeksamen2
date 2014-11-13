@@ -3,19 +3,28 @@
 #include <netdb.h> 
 #include <stdio.h>
 #include <string.h> 
+#include <stdlib.h>
 
+#include "manage_syscall.h"
 
-main()
-{
-  struct sockaddr_in serveraddr, clientaddr; 
-  int clientaddrlen;
-  int request_sock, sock;
-  char buf[12]; 
+/*
+
+Oppretter klient og venter på at klienten skal koble seg til
+
+*/
+
+void createserver(){
+
+	struct sockaddr_in serveraddr, clientaddr; 
+    int clientaddrlen;
+    int request_sock, sock;
+    char buf[1000]; 
+   	//char* res;
+    char res[1000];
 
     /* Opprett request-socket  */
     request_sock = socket(AF_INET, SOCK_STREAM, 
                                     IPPROTO_TCP);
-
     /* Opprett adressestruct */
     memset((void *) &serveraddr, 0, sizeof(serveraddr));
     serveraddr.sin_family = AF_INET; 
@@ -33,16 +42,23 @@ main()
                                                     &clientaddrlen);
 
     /* les data fra forbindelsen, og skriv dem ut */
-    read(sock, buf,11);
+
+    read(sock, buf,1000);
     buf[11] = '\0';
-    printf("%s \n",buf);
+
+    /*sender med kommandoen til getcmdres*/
+ 	//res = getcmdres(buf);
+
+    FILE* f;
+
+	f = popen(buf, "r");
+	fgets(res, sizeof(res), f);
 
     /* Send data tilbake over forbindelsen */
-    write(sock, buf,11); 
+    write(sock, res, 1000); 
 
     /* Steng socketene */
     close(sock);
     close(request_sock);
 
-} 
-   
+}
