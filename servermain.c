@@ -5,7 +5,8 @@
 
 main()
 {
-    /*denne må løpe evig. Når skal den stoppe?*/
+
   createserver();
+  
 } 
    

@@ -3,9 +3,9 @@
 char* getcmdres(char buf[]){
 
 	FILE* f;
-	char *res;
+	char *r;
 
 	f = popen(buf, "r");
-	fgets(res, sizeof(res), f);
-	return res;
+	fgets(r, sizeof(r), f);
+	return r;
 }

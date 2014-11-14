@@ -24,7 +24,6 @@ void command_loop(){
 	char* command;
 
 	while(isRunning){
-
 		printf("cmd (? for help)> ");
 
 		if(fgets(userInput, sizeof(userInput), stdin) != NULL){
@@ -64,10 +63,7 @@ void command_loop(){
 					isRunning = 0;
 
 				}
-
 			}
-
-		}
-		
+		}	
 	}
 }

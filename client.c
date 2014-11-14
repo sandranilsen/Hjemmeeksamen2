@@ -3,6 +3,9 @@
 #include <netdb.h> 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+
+#include "managewrapping.h"
 
 /*
 
@@ -16,7 +19,10 @@ void createclient(char* in){
    /* deklarasjon av litt datastruktur */
      struct sockaddr_in serveraddr;
      int sock;
-     char buf[12]; 
+     //char buf[12]; 
+     char* buf = malloc(sizeof(char) * 1000);
+     //char* buf;
+ 
 
    /* Opprett socket */
     sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -28,7 +34,7 @@ void createclient(char* in){
     serveraddr.sin_family = AF_INET;
 
     /* Sett inn internettadressen til localhost */
-    serveraddr.sin_addr.s_addr = inet_addr("129.240.71.79");
+    serveraddr.sin_addr.s_addr = inet_addr("129.240.71.167");
 
     /* Sett portnummer */
     serveraddr.sin_port = htons(2009);
@@ -36,15 +42,30 @@ void createclient(char* in){
     /* Koble opp */
     connect(sock, (struct sockaddr*)&serveraddr, sizeof serveraddr); 
 
+    /*oppretter en pakke som holder på brukerinput og dens lengde*/
+    /*bør få denne til å virke fra egen metode*/
+    struct packet* p = malloc(sizeof(struct packet));
+    p->length = strlen(in);
+    p->data = in;
+    
+    
+
+    free(p);
+  
     /* Send data fra brukerinput*/
     write(sock, in, sizeof(in));
+    /*flytte denne delen inn i wrap()?*/
+
 
     /* les data fra forbindelsen */
-    read(sock, buf, 12);
+    read(sock, buf, sizeof(buf));
 
     /* legg til et termineringstegn, og skriv ut til skjerm */
-    buf[12] = '\0';
+   // buf[12] = '\0';
     printf("%s \n",buf);
+
+    /*frigjør bufferet*/
+    free(buf);
 
     /* Steng socketen */
     close(sock);

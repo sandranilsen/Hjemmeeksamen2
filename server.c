@@ -18,9 +18,10 @@ void createserver(){
 	struct sockaddr_in serveraddr, clientaddr; 
     int clientaddrlen;
     int request_sock, sock;
-    char buf[1000]; 
-   	//char* res;
-    char res[1000];
+    char buf[100]; 
+
+   	char res[1000];
+   // char* res = malloc(sizeof(char) * 1000);
     int isrunning = 1;
 
     /* Opprett request-socket  */
@@ -34,6 +35,7 @@ void createserver(){
 
     /* bind adressen til socketen */
     bind(request_sock, (struct sockaddr *)&serveraddr, sizeof serveraddr);
+    //printf("You are connected to the server\n");
 
 	while(isrunning){
 
@@ -44,32 +46,25 @@ void createserver(){
     	sock = accept(request_sock,(struct sockaddr *)&clientaddr, &clientaddrlen);
 
     	/* les data fra forbindelsen, og skriv dem ut */
-    	read(sock, buf,1000);
-    	buf[1000] = '\0';
+    	read(sock, buf,100);
+    	buf[100] = '\0';
 
-    	/*sender med kommandoen til getcmdres*/
- 		//res = getcmdres(buf);
-
-
-		/*dersom q sendes med skal den evige løkken avsluttes og serveren lukkes sender
-		med 'q' tilbake til klienten for å bekrefte av programmet avsluttes*/
+		/*dersom q sendes med skal den evige løkken avsluttes og serveren lukkes*/
 		if(buf[0] == 'q'){
 			isrunning = 0;
-			write(sock, buf, 1000);
+			write(sock, " ", 100);
 
 		}else{
-    		FILE* f;
+
+ 	  		FILE* f;
 
 			f = popen(buf, "r");
 			fgets(res, sizeof(res), f);
-
-    		/* Send data tilbake over forbindelsen */
-    		write(sock, res, 1000); 
-
+            write(sock, res, sizeof(res));
+            isrunning = 1;
+			
     	}
-
 	}
-
 
     /* Steng socketene */
     close(sock);

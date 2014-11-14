@@ -1,2 +1,25 @@
-skrive ut fra server til klient: repetere write flere ganger
-Er det ok å avslutte klient og server ved å sende tilbake en 'q'?
+
+
+Hvordan kan jeg sørge for at write skriver alt den skal hos serveren? Hvor lange strenger kan den skrive?
+Hvor store bør hver pakke være?
+burde alle pakkene være et resultat av bitshifting?
+Må jeg sende en "tom" pakke for å bekrefte at klient er koblet til server og server til klien?
+
+pakken kan være så stor som man selv ønsker
+sjekk returverdien til send og recieve. Viser hvor mye man har sendt, sjekker så om denne verdien er den samme som størrelsen
+man vil sende, dersom denne ikke er lik, må man flytte pekeren i bufferet, sende med bufferet fra og med denne pekeren og gjenta 
+samme prosedyre. 
+legg heller alle verdiene i pakken i en struct i stedet for et array. Dette vil gjøre det lettere å hente ut og inn verdier. 
+
+
+
+
+protokoll
+pakkeid		totlengde	lengde av totlengde		totant pakker	delpakkeenr		nyttelast
+pakkeid		totlengde 	dellengde				nyttelast
+pakkeid		totlengde	totant pakker			delpakkenr 		nyttelast
+
+klient:
+char** pakke = malloc(sizeof(char*) * 5);
+
+1 	2 			1						1				ls
