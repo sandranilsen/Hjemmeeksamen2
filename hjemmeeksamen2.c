@@ -56,6 +56,7 @@ void command_loop(){
 
 				}else if(userInput[0] == '5'){
 					//cat
+					command = "cat";
 
 				}else if(userInput[0] == 'q'){
 					command = "q";
