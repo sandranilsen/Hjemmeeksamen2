@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "client.h"
 
 void command_loop();
@@ -20,8 +21,9 @@ Kaller på createclient() fra client.c
 void command_loop(){
 
 	int isRunning = 1;
-	char userInput[3];
-	char* command;
+	char userInput[15];
+	char* command = malloc(sizeof(char) * 20);
+	char* param = malloc(sizeof(char) * 20);
 
 	while(isRunning){
 		printf("cmd (? for help)> ");
@@ -55,8 +57,21 @@ void command_loop(){
 					//file information
 
 				}else if(userInput[0] == '5'){
-					//cat
+
+					/*legg inn i egen metode*/
 					command = "cat";
+					strncpy(param, userInput + 1, strlen(userInput));
+
+					char* tot = malloc(strlen(command) + strlen(param) + 1);
+
+					strcat(tot, command);
+					strcat(tot, param);
+					//printf("%s", tot);
+					//printf("%d\n", strlen(tot));
+
+					createclient(tot);
+
+					free(tot);
 
 				}else if(userInput[0] == 'q'){
 					command = "q";
@@ -67,4 +82,6 @@ void command_loop(){
 			}
 		}	
 	}
+
+	free(command);
 }

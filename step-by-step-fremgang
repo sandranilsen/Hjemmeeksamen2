@@ -5,5 +5,64 @@ samme prosedyre.
 
 Spørsmål:
 Når jeg sender en pakke som en strukt og read ikke har mottatt hele pakken, hvordan skal jeg vite hvordan de resterende dataene sendes?
-Hvorfor vises ikke data-pekeren min når jeg sender den til klienten?
-Er det feil å opprette en klien for hver gang man kjører en kommando?
+Er det feil å opprette en klient for hver gang man kjører en kommando?
+Er det meningen at jeg skal sende hele structen samlet eller lagrer jeg alle verdier i en struct, sender dem hver for seg og deretter lagrer dem i en struct hos mottakeren igjen?
+Hvilken kommando for fileinformation?
+
+
+opprette struct med headerinformasjon. Sende denne. Sende så nyttelasten.
+for å se om hele structen er sendt må man gjøre om structpekeren til en char-peker. 
+struct pakke *p;
+char* p2 = (char*) p;
+
+husk å holde styr på hvor mye som er lest
+
+
+struct packet* fromclient = malloc(sizeof(struct packet));
+
+        char* p = fromclient;
+        int k = read(sock, p, sizeof(struct packet));
+        p = p + k;
+
+
+opprette struct
+
+oppretter en char-peker
+
+char-pekeren peker på structen
+
+leser fra socket til char-peker med en str på en struct minus det som allerede er lest
+
+pekeren oppdateres ved å skrive p = p + så mye som er sendt
+
+
+/*headerinformasjon*/
+        /*
+        struct packet* fromclient = malloc(sizeof(struct packet));
+        char* recievefromclient = fromclient;
+
+        int bitrecieved = 0;
+        int readoutput;
+
+        while(readoutput = read(sock, recievefromclient, sizeof(struct packet) - bitrecieved) <= sizeof(struct packet)){
+
+            recievefromclient = recievefromclient + readoutput;
+            bitrecieved = bitrecieved + readoutput;
+
+        }*/
+
+
+        fra client
+        /*
+    int bitsent = 0;
+    int writeoutput;
+    char* sendtoserver = toserver;
+
+    while(writeoutput = write(sock, sendtoserver, sizeof(struct packet) - bitsent) <= (sizeof(struct packet) - bitsent)){
+
+        sendtoserver = sendtoserver + writeoutput;
+        bitsent = bitsent + writeoutput;
+
+        printf("writeoutput: %d, sendtoserver: %d, bitsent: %d \n", writeoutput, sendtoserver, bitsent);
+
+    }*/

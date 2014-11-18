@@ -6,6 +6,7 @@
 #include <stdlib.h>
 
 #include "managewrapping.h"
+#include "messages.h"
 
 /*
 
@@ -32,23 +33,29 @@ void createclient(char* in){
     serveraddr.sin_family = AF_INET;
 
     /* Sett inn internettadressen til localhost, sette portnummer og koble opp mot server */
-    serveraddr.sin_addr.s_addr = inet_addr("129.240.71.79");
+    serveraddr.sin_addr.s_addr = inet_addr("129.240.71.70");
     serveraddr.sin_port = htons(2009);
     connect(sock, (struct sockaddr*)&serveraddr, sizeof serveraddr); 
 
-
+    /*headerinformasjon*/
+    struct packet* toserver = malloc(sizeof(struct packet));
+    
     /* Send data fra brukerinput*/
-    int k = write(sock, in, sizeof(in));
+
+    sendmessage(sock, 10, in);
+    printf("IN: %s\n", in);
+
+  
 
     /* les data fra forbindelsen */
-    int l = read(sock, buf, sizeof(buf));
+    //int l = read(sock, buf, sizeof(buf));
 
     /* legg til et termineringstegn, og skriv ut til skjerm */
    // buf[12] = '\0';
     printf("%s \n",buf);
-    memset(buf, 0, sizeof(buf));
+    //memset(buf, 0, sizeof(buf));
 
-
+    free(toserver);
     /* Steng socketen */
     close(sock);
 }

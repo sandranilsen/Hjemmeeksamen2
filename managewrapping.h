@@ -2,7 +2,7 @@ struct packet
 {
 	//int id;
 	int length;
-	char* data;
+	
 
 };
 

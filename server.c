@@ -7,6 +7,7 @@
 
 #include "manage_syscall.h"
 #include "managewrapping.h"
+#include "messages.h"
 
 /*
 
@@ -19,11 +20,9 @@ void createserver(){
 	struct sockaddr_in serveraddr, clientaddr; 
     int clientaddrlen;
     int request_sock, sock;
-    char buf[100]; 
     FILE* f;
-
    	char res[1000];
-   // char* res = malloc(sizeof(char) * 1000);
+
     int isrunning = 1;
 
     /* Opprett request-socket  */
@@ -46,28 +45,37 @@ void createserver(){
     	/* motta en forbindelse */
     	sock = accept(request_sock,(struct sockaddr *)&clientaddr, &clientaddrlen);
 
-    	/* les data fra forbindelsen, og skriv dem ut */
-        int k = read(sock, buf,100);
-    	buf[100] = '\0';
+        /*leser data fra forbindelsen*/
+        //HUSK Å ENDRE STØRRELSEN PÅ BUFF OG STØRRELSEN SOM SENDES MED
 
+        char* buff = malloc(sizeof(char) * 10);
+        readmessage(sock, 10, buff);
+  
+        printf("BUF: %s\n", buff);
+           
 		/*dersom q sendes med skal den evige løkken avsluttes og serveren lukkes*/
-        
-		if(buf[0] == 'q'){
+        /*
+		if(buff[0] == 'q'){
 			isrunning = 0;
-			write(sock, " ", 100);
+			write(sock, " ", 2);
 
 		}else{
 
-			f = popen(buf, "r");
+            //HUSK Å ENDRE DENNE VERDIEN
+            char* res = malloc(sizeof(char) * 100);
+
+			f = popen(buff, "r");
 	
+            //HUSK Å ENDRE LENGDEN SOM SENDES MED SENDMESSAGE()
             while(fgets(res, sizeof(res), f)!=NULL){
-                int i = write(sock, res, strlen(res));
-                printf("I: %d, sizeofres: %d, RES: %s\n", i, strlen(res), res);
+                printf("%s\n", res);
+                sendmessage(sock, 100, res);
             }
+    
             
             isrunning = 1;
 			
-    	}
+    	}*/
 	}
 
     /* Steng socketene */

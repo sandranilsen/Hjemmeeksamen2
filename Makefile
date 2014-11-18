@@ -1,10 +1,10 @@
 all: client server
 
-client: client.c hjemmeeksamen2.c managewrapping.c
-	gcc -o client client.c hjemmeeksamen2.c managewrapping.c
+client: client.c hjemmeeksamen2.c messages.c
+	gcc -o client client.c hjemmeeksamen2.c messages.c
 
-server: servermain.c server.c manage_syscall.c
-	gcc -o server servermain.c server.c manage_syscall.c
+server: servermain.c server.c manage_syscall.c messages.c
+	gcc -o server servermain.c server.c manage_syscall.c messages.c
 
 clean:
 	rm -f *~ client server

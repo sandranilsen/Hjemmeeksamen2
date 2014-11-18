@@ -13,7 +13,7 @@ struct packet* wrap(char* buf){
 
 	struct packet *p;
 	//p->length = strlen(buf);
-	p->data = buf;
+	//p->data = buf;
 
 	return p;
 }
