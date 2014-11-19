@@ -5,31 +5,23 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "managewrapping.h"
 #include "messages.h"
+#include "headerinfo.h"
 
 /*
-
 oppretter klient og kobler til server. 
 INPUT: brukerinput
-
 */
 
 void createclient(char* in){
 
    /* deklarasjon av litt datastruktur */
-     struct sockaddr_in serveraddr;
-     int sock;
-     char buf[1000];
-     memset(buf, 0, sizeof(buf));
+    struct sockaddr_in serveraddr;
+    int sock;
  
-   /* Opprett socket */
+   /* Oppretter socket, nuller ut serveradresse-struct'en, setter domenet til Internett */
     sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-
-    /* Null ut serveradresse-struct'en */
     memset((void *) &serveraddr, 0, sizeof(serveraddr));
-
-    /* Sett domenet til Internett */
     serveraddr.sin_family = AF_INET;
 
     /* Sett inn internettadressen til localhost, sette portnummer og koble opp mot server */
@@ -37,25 +29,32 @@ void createclient(char* in){
     serveraddr.sin_port = htons(2009);
     connect(sock, (struct sockaddr*)&serveraddr, sizeof serveraddr); 
 
-    /*headerinformasjon*/
+    /*oppretter og oppdaterer headerinformasjon og sender til server*/
     struct packet* toserver = malloc(sizeof(struct packet));
-    
-    /* Send data fra brukerinput*/
+    makeheaderinfo(in, toserver);
+    char* streamtoserver = (char*)toserver;
+    sendmessage(sock, sizeof(streamtoserver), streamtoserver);
 
-    sendmessage(sock, 10, in);
-    printf("IN: %s\n", in);
+    /* Send data fra brukerinput/nyttelast*/
+    sendmessage(sock, toserver->length, in);
 
-  
+    /*leser inn headerinformasjon fra server*/
+    struct packet* fromserver = malloc(sizeof(struct packet));
+    char* streamfromserver = (char*)fromserver;
+    readmessage(sock, sizeof(streamfromserver), streamfromserver);
 
-    /* les data fra forbindelsen */
-    //int l = read(sock, buf, sizeof(buf));
+    /*leser inn beskjed/pakke fra serveren og legger dette i et buffer lik lengden som er oppgitt i headerinformasjonen*/
+    char* buff = malloc(sizeof(char) * fromserver->length);
+    readmessage(sock, fromserver->length, buff);
+    printf("%s\n", buff);
 
-    /* legg til et termineringstegn, og skriv ut til skjerm */
-   // buf[12] = '\0';
-    printf("%s \n",buf);
-    //memset(buf, 0, sizeof(buf));
+    memset(buff, 0, sizeof(buff));
 
+    /*frigjore minne*/
     free(toserver);
+    free(fromserver);
+    free(buff);
+
     /* Steng socketen */
     close(sock);
 }

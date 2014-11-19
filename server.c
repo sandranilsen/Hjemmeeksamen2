@@ -5,14 +5,11 @@
 #include <string.h> 
 #include <stdlib.h>
 
-#include "manage_syscall.h"
-#include "managewrapping.h"
 #include "messages.h"
+#include "headerinfo.h"
 
 /*
-
 Oppretter klient og venter på at klienten skal koble seg til
-
 */
 
 void createserver(){
@@ -21,7 +18,6 @@ void createserver(){
     int clientaddrlen;
     int request_sock, sock;
     FILE* f;
-   	char res[1000];
 
     int isrunning = 1;
 
@@ -45,16 +41,18 @@ void createserver(){
     	/* motta en forbindelse */
     	sock = accept(request_sock,(struct sockaddr *)&clientaddr, &clientaddrlen);
 
-        /*leser data fra forbindelsen*/
-        //HUSK Å ENDRE STØRRELSEN PÅ BUFF OG STØRRELSEN SOM SENDES MED
-
-        char* buff = malloc(sizeof(char) * 10);
-        readmessage(sock, 10, buff);
+        /*leser inn headerinformasjonen fra client*/
+        struct packet* fromclient = malloc(sizeof(struct packet));
+        char* streamfromclient = (char*)fromclient;
+        readmessage(sock, sizeof(streamfromclient), streamfromclient);
   
+        /*leser inn beskjed/pakke fra klienten og legger dette i et buffer lik lengden som er oppgitt i headerinformasjonen*/
+        char* buff = malloc(sizeof(char) * fromclient->length);
+        readmessage(sock, fromclient->length, buff);
         printf("BUF: %s\n", buff);
+
            
 		/*dersom q sendes med skal den evige løkken avsluttes og serveren lukkes*/
-        /*
 		if(buff[0] == 'q'){
 			isrunning = 0;
 			write(sock, " ", 2);
@@ -62,20 +60,30 @@ void createserver(){
 		}else{
 
             //HUSK Å ENDRE DENNE VERDIEN
-            char* res = malloc(sizeof(char) * 100);
-
+            char* res = malloc(sizeof(char) * 200);
 			f = popen(buff, "r");
+            fread(res, sizeof(char)*200, sizeof(res), f);
+
+            /*oppretter og oppdaterer headerinformasjon og sender til client*/
+            struct packet* toclient = malloc(sizeof(struct packet));
+            makeheaderinfo(res, toclient);
+            char* streamtoclient = (char*)toclient;
+            sendmessage(sock, sizeof(streamtoclient), streamtoclient);
+
+            printf("RES: %s\n", res);
 	
-            //HUSK Å ENDRE LENGDEN SOM SENDES MED SENDMESSAGE()
-            while(fgets(res, sizeof(res), f)!=NULL){
-                printf("%s\n", res);
-                sendmessage(sock, 100, res);
-            }
-    
+            sendmessage(sock, toclient->length, res);
+ 
             
             isrunning = 1;
+            free(res);
+            free(toclient);
 			
-    	}*/
+    	}
+
+        free(buff);
+        free(fromclient);
+   
 	}
 
     /* Steng socketene */

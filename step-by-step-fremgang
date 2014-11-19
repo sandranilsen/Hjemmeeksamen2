@@ -1,68 +1,12 @@
+Hvordan får jeg en char-peker til å peke på en struct?
+Må caste for å få dette til å fungere. 
 
-sjekk returverdien til send og recieve. Viser hvor mye man har sendt, sjekker så om denne verdien er den samme som størrelsen
-man vil sende, dersom denne ikke er lik, må man flytte pekeren i bufferet, sende med bufferet fra og med denne pekeren og gjenta 
-samme prosedyre. 
+Trenger jeg egentlig noe annet i headerinformasjonen enn lengden på det som skal sendes?
+Finnes det noe systemkall eller innebygd metode for å hente ut filinformasjon?
+lstata eller lignende kan brukes til å hente ut dette. Kan også være fiffig om man legger ved størrelsen på mappen eller filen osv. 
 
-Spørsmål:
-Når jeg sender en pakke som en strukt og read ikke har mottatt hele pakken, hvordan skal jeg vite hvordan de resterende dataene sendes?
-Er det feil å opprette en klient for hver gang man kjører en kommando?
-Er det meningen at jeg skal sende hele structen samlet eller lagrer jeg alle verdier i en struct, sender dem hver for seg og deretter lagrer dem i en struct hos mottakeren igjen?
-Hvilken kommando for fileinformation?
+kjapp introduksjon til bruk av cd i systemkall? :)
+Lønner seg ikke å bruke popen her. Må huske å vite i hvilken katalog klienten opprinnelig var i slik at man ikke risikerer å navigere utenfor. 
 
+Hva er kravet til kildebruk på teoridelen? Ikke spess viktig. 
 
-opprette struct med headerinformasjon. Sende denne. Sende så nyttelasten.
-for å se om hele structen er sendt må man gjøre om structpekeren til en char-peker. 
-struct pakke *p;
-char* p2 = (char*) p;
-
-husk å holde styr på hvor mye som er lest
-
-
-struct packet* fromclient = malloc(sizeof(struct packet));
-
-        char* p = fromclient;
-        int k = read(sock, p, sizeof(struct packet));
-        p = p + k;
-
-
-opprette struct
-
-oppretter en char-peker
-
-char-pekeren peker på structen
-
-leser fra socket til char-peker med en str på en struct minus det som allerede er lest
-
-pekeren oppdateres ved å skrive p = p + så mye som er sendt
-
-
-/*headerinformasjon*/
-        /*
-        struct packet* fromclient = malloc(sizeof(struct packet));
-        char* recievefromclient = fromclient;
-
-        int bitrecieved = 0;
-        int readoutput;
-
-        while(readoutput = read(sock, recievefromclient, sizeof(struct packet) - bitrecieved) <= sizeof(struct packet)){
-
-            recievefromclient = recievefromclient + readoutput;
-            bitrecieved = bitrecieved + readoutput;
-
-        }*/
-
-
-        fra client
-        /*
-    int bitsent = 0;
-    int writeoutput;
-    char* sendtoserver = toserver;
-
-    while(writeoutput = write(sock, sendtoserver, sizeof(struct packet) - bitsent) <= (sizeof(struct packet) - bitsent)){
-
-        sendtoserver = sendtoserver + writeoutput;
-        bitsent = bitsent + writeoutput;
-
-        printf("writeoutput: %d, sendtoserver: %d, bitsent: %d \n", writeoutput, sendtoserver, bitsent);
-
-    }*/

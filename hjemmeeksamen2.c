@@ -13,10 +13,8 @@ int main(){
 }
 
 /*
-
 kommandoløkke løper helt til bruker taster 'q'.
 Kaller på createclient() fra client.c
-
 */
 void command_loop(){
 
@@ -63,12 +61,9 @@ void command_loop(){
 					strncpy(param, userInput + 1, strlen(userInput));
 
 					char* tot = malloc(strlen(command) + strlen(param) + 1);
-
 					strcat(tot, command);
 					strcat(tot, param);
-					//printf("%s", tot);
-					//printf("%d\n", strlen(tot));
-
+			
 					createclient(tot);
 
 					free(tot);
