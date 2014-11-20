@@ -3,10 +3,10 @@
 
 #include "server.h"
 
-main()
+int main(int argc, char* argv[])
 {
-
-  createserver();
-  
+  	createserver(argv[1]);
+  	
+  	return 0;
 } 
    

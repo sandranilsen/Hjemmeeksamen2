@@ -6,7 +6,11 @@ Finnes det noe systemkall eller innebygd metode for å hente ut filinformasjon?
 lstata eller lignende kan brukes til å hente ut dette. Kan også være fiffig om man legger ved størrelsen på mappen eller filen osv. 
 
 kjapp introduksjon til bruk av cd i systemkall? :)
-Lønner seg ikke å bruke popen her. Må huske å vite i hvilken katalog klienten opprinnelig var i slik at man ikke risikerer å navigere utenfor. 
+Lønner seg ikke å bruke popen her. Må huske å vite i hvilken katalog klienten opprinnelig var i slik at man ikke risikerer å navigere utenfor. Ikke bruke fork heller, det vil bare føre til at man starter en ny prosess, utfører systemkallet i barneprosessen og avslutter igjen. Dette vil derfor ikke kunne gi noe utslag. 
 
-Hva er kravet til kildebruk på teoridelen? Ikke spess viktig. 
+Hvordan skal jeg vite hvor stort resultatet er fra popen?
+
+Hvorfor tømmer ikke bufferet mitt seg selvom jeg frigjør det eller bruker memset?
+
+
 

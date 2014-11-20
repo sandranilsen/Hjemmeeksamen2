@@ -1,1 +1,1 @@
-void createclient(char* in);
+void createclient(char* machinename, char* portnb, char* in);

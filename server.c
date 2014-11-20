@@ -12,8 +12,9 @@
 Oppretter klient og venter på at klienten skal koble seg til
 */
 
-void createserver(){
+void createserver(char* portnb){
 
+    int port = atoi(portnb);
 	struct sockaddr_in serveraddr, clientaddr; 
     int clientaddrlen;
     int request_sock, sock;
@@ -28,7 +29,7 @@ void createserver(){
     memset((void *) &serveraddr, 0, sizeof(serveraddr));
     serveraddr.sin_family = AF_INET; 
     serveraddr.sin_addr.s_addr = INADDR_ANY;
-    serveraddr.sin_port = htons(2009);
+    serveraddr.sin_port = htons(port);
 
     /* bind adressen til socketen */
     bind(request_sock, (struct sockaddr *)&serveraddr, sizeof serveraddr);
@@ -53,16 +54,20 @@ void createserver(){
 
            
 		/*dersom q sendes med skal den evige løkken avsluttes og serveren lukkes*/
-		if(buff[0] == 'q'){
+		if(strcmp(buff, "q") == 0){
 			isrunning = 0;
-			write(sock, " ", 2);
+            memset(buff, 0, sizeof(buff));
+			//write(sock, " ", 2);
 
-		}else{
+		}else if(strcmp(buff, "ls") == 0 || strcmp(buff, "pwd") == 0){
 
             //HUSK Å ENDRE DENNE VERDIEN
             char* res = malloc(sizeof(char) * 200);
 			f = popen(buff, "r");
             fread(res, sizeof(char)*200, sizeof(res), f);
+
+            /*nullstiller bufferet*/
+           // memset(buff, 0, sizeof(buff));
 
             /*oppretter og oppdaterer headerinformasjon og sender til client*/
             struct packet* toclient = malloc(sizeof(struct packet));
@@ -81,6 +86,7 @@ void createserver(){
 			
     	}
 
+        memset(buff, '\0' , sizeof(buff));
         free(buff);
         free(fromclient);
    

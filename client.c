@@ -13,8 +13,9 @@ oppretter klient og kobler til server.
 INPUT: brukerinput
 */
 
-void createclient(char* in){
+void createclient(char* machinename, char* portnb, char* in){
 
+    int port = atoi(portnb);
    /* deklarasjon av litt datastruktur */
     struct sockaddr_in serveraddr;
     int sock;
@@ -25,8 +26,8 @@ void createclient(char* in){
     serveraddr.sin_family = AF_INET;
 
     /* Sett inn internettadressen til localhost, sette portnummer og koble opp mot server */
-    serveraddr.sin_addr.s_addr = inet_addr("129.240.71.70");
-    serveraddr.sin_port = htons(2009);
+    serveraddr.sin_addr.s_addr = inet_addr("129.240.71.69");
+    serveraddr.sin_port = htons(port);
     connect(sock, (struct sockaddr*)&serveraddr, sizeof serveraddr); 
 
     /*oppretter og oppdaterer headerinformasjon og sender til server*/

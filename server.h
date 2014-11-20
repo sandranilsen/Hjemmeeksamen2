@@ -1,1 +1,1 @@
-void createserver();
+void createserver(char* portnb);

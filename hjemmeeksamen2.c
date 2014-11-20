@@ -3,11 +3,11 @@
 #include <stdlib.h>
 #include "client.h"
 
-void command_loop();
+void command_loop(char* machinename, char* portnb);
 
-int main(){
+int main(int argc, char* argv[]){
 
-	command_loop();
+	command_loop(argv[1], argv[2]);
 	return 0;
 
 }
@@ -16,7 +16,7 @@ int main(){
 kommandoløkke løper helt til bruker taster 'q'.
 Kaller på createclient() fra client.c
 */
-void command_loop(){
+void command_loop(char* machinename, char* portnb){
 
 	int isRunning = 1;
 	char userInput[15];
@@ -42,11 +42,11 @@ void command_loop(){
 
 				if(userInput[0] == '1'){
 					command = "ls";
-					createclient(command);
+					createclient(machinename, portnb, command);
 
 				}else if(userInput[0] == '2'){
 					command = "pwd";
-					createclient(command);
+					createclient(machinename, portnb, command);
 
 				}else if(userInput[0] == '3'){
 					//cd
@@ -58,25 +58,28 @@ void command_loop(){
 
 					/*legg inn i egen metode*/
 					command = "cat";
+					/*
+
+					DETTE MÅ FIKSES
 					strncpy(param, userInput + 1, strlen(userInput));
 
 					char* tot = malloc(strlen(command) + strlen(param) + 1);
 					strcat(tot, command);
 					strcat(tot, param);
 			
-					createclient(tot);
+					createclient(machinename, portnb, tot);
 
-					free(tot);
+					free(tot);*/
 
 				}else if(userInput[0] == 'q'){
 					command = "q";
-					createclient(command);
+					createclient(machinename, portnb, command);
 					isRunning = 0;
 
 				}
 			}
 		}	
 	}
-
+//husk å frigjøre param
 	free(command);
 }
